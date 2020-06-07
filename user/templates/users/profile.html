@@ -1,0 +1,136 @@
+{% extends 'blog/index.html'%}
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+
+
+
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+<div class="row flex-lg-nowrap">
+ 
+
+  <div class="col">
+    <div class="row">
+      <div class="col mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="e-profile">
+              <div class="row">
+                <div class="col-12 col-sm-auto mb-3">
+                  <div class="mx-auto" style="width: 140px;">
+                    <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
+                      <img src="{{user.profile.image.url}}" style="width: 144px; height: 144px;" class="rounded" alt="{{user.username}}">                    </div>
+                  </div>
+                </div>
+                <div class="col d-flex flex-column flex-sm-row justify-content-between mb-3">
+                  <div class="text-center text-sm-left mb-2 mb-sm-0">
+                    <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{user.username}}</h4>
+                    <p class="mb-0">{{user.email}}</p>
+                    
+                  </div>
+            
+                </div>
+              </div>
+              <ul class="nav nav-tabs">
+                <li class="nav-item"><a href="" class="active nav-link">Settings</a></li>
+              
+<!--update form-->
+<div class="content">
+  <form method="POST" enctype="multipart/form-data">
+  {% csrf_token %}
+  <fieldset class="container">
+      <legend class="border-bottom mb-4">
+          update your info
+      </legend>
+      {{u_form|crispy}}
+      {{p_form|crispy}}
+
+  </fieldset>
+  <div class="form-group">
+      <button class='btn btn-outline-info' type="submit">update</button>     
+  </div>
+  </form>
+  
+  </div>
+              </ul>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-3 mb-3">
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="px-xl-3">
+              <button class="btn btn-block btn-secondary">
+                <i class="fa fa-sign-out"></i>
+                <span><a href='{% url "logout" %}' style="color: white;">Logout</a></span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <h6 class="card-title font-weight-bold">Support</h6>
+            <p class="card-text">Get fast, free help from our friendly assistants.</p>
+            <button type="button" class="btn btn-primary">Contact Us</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{%for post in posts %}
+<div class="container">
+<div class="card" style="width: 50rem; margin: 20px;">
+    <div class="">
+      <div class="d-flex justify-content-center align-items-center rounded" style="height: 40px; background-color: rgb(233, 236, 239);">
+                      <img src="{{post.author.profile.image.url}}" style="width: 40px; height: 44px;" class="rounded" alt="{{user.username}}">                    </div>
+                  </div>
+      <h5 class="card-title">{{post.title}}</h5>
+      <small>{{post.date}}</small>
+      <p class="card-text">{{post.content|truncatechars:100}}</p>
+      <p class="card-text" style="left: 50px;">by:-<a href='{% url 'user' post.author.username %}'>{{post.author}}</a></p>
+      
+
+      <a href="{% url 'detail' post.id %}" class="btn btn-primary">read more</a>
+      {% if post.approved == True %}
+      <small>
+        <p class='alert alert-success'>approved</p> 
+      </small>
+      {% else %}
+      <small>
+        <p class='alert alert-danger'>not approved</p>
+      </small>
+      {% endif %}
+    </div>
+  </div>
+
+  {% endfor %}
+  <div class="pagination" style="padding:50px;"
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+        <div class="container">
+            <a class="next" style="padding-right: 50px;"             href="?page={{ page_obj.next_page_number }}"> next  </a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">  last  &raquo;</a>
+        </div>
+        {% endif %}
+    </span>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'blog/index.html'%}
+{% block content %}
+<div class="container">
+  <div class="card" style="width: 50rem; margin: 20px;">
+      <div class="">
+        <div class="d-flex justify-content-center align-items-center rounded" style="height: 40px; background-color: rgb(233, 236, 239);">
+                        <img src="{{object.author.profile.image.url}}" style="width: 40px; height: 44px;" class="rounded" alt="{{object.author}}">                    </div>
+                    </div>
+        <h1 class="card-title" style="margin : 10px; align-items: center;">{{object.title}}</h1>
+        {% if post.pic %}
+        <div >
+            <img src="{{post.pic.url}}" style="width: 600px; height: 500px; padding-left: 60px;">
+        </div>
+        {% endif %}
+        <small>{{object.date}}</small>
+        <p class="card-text">{{object.content}}</p>
+        <p class="card-text" style="left: 50px;">by:-<a href="{% url 'user' post.author.username %}">{{object.author}}</a></p>
+        
+  
+      </div>
+    </div>
+  {% if object.author == user %}
+  <a class="btn btn-success btn-sm mt-1 mb-1" href="{% url 'update' post.id %}">update this post </a>
+  <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'delete' post.id %}">delete this post </a>
+
+  {% endif %}
+
+  
+
+</div>
+<div class="form-group-row">
+  <form method="POST" action="{% url 'comment' %}">
+    {% csrf_token %}
+    <input type="hidden" name="comment_id" value="{{object.id}}">
+    <div class="form-group">
+      <label for="comment" style='margin-left: 200px;'   >Comment:</label>
+      <textarea class="form-control" name='content' rows="5" style="width: 400px;margin-left: 200px;"  id="comment"></textarea>
+    </div>
+    {% if request.user.is_authenticated%}
+    <input type="submit" style='margin-left: 200px;'              value="Submit" class="btn btn-outline-success">
+    {% else %}
+    <input type="submit" value="Submit" style='margin-left: 200px;'    class="btn btn-outline-success"disabled>
+    {% endif %}
+  </form>
+</div>
+<div class="main-comment-section">
+  {{comments.count}} Comment {{comment|pluralize}}
+  {% for comment in comments %}
+  <blockquote class="blockquote">
+    <p class="mb-0">{{comment.content}}</p>
+    <footer class="blockquote-footer">{{comment.user|first}}</footer>
+  </blockquote>
+  <div class="replied-section-container mt-2">
+      <div class="form-group-row">
+        <form method="POST" >
+          {% csrf_token %}
+          <input type="hidden" name="comment_id" value="{{object.id}}">
+          {{comment_form.as_p}}
+          {% if request.user.is_authenticated%}
+          <input type="submit" value="Submit" class="btn btn-outline-success">
+          {% else %}
+          <input type="submit" value="Submit" class="btn btn-outline-success"disabled>
+          {% endif %}
+        </form>
+      </div>
+  </div>
+</div>
+{% endfor %}
+ 
+{% block comment %}{% endblock %}
+{% endblock %}

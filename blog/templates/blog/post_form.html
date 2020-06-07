@@ -1,0 +1,22 @@
+{% extends 'blog/index.html'%}
+
+
+{% block content %}
+<div class="content">
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+<fieldset class="container">
+    <legend class="border-bottom mb-4">
+        Create Post
+    </legend>
+    {{form.as_p}}
+</fieldset>
+<small style="color: red;margin-left: 50px;">your post will be available in home after it will be approved by admin</small>
+
+<div class="form-group">
+    <button style="margin-left: 150px;"    class='btn btn-outline-success' type="submit">post</button>     
+</div>
+</form>
+
+</div>
+{% endblock %}

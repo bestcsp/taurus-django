@@ -1,0 +1,55 @@
+{% extends 'blog/base.html'%}
+{% block content %}
+<h1>Search Results </h1>
+{% if posts|length < 1 %}
+<p class="lead" style="margin-left: 10px;">
+ Nothing Found
+ your search query this <b>{{query}} </b> did not match any results in documents <br>
+ Suggestion:-
+ <ul>   
+     <li>Try another keywords </li>
+    
+    </ul>
+  </p>
+{%else%}
+
+{% for post in posts %}
+<div class="container">
+<div class="card" style="width: 50rem; margin: 20px;">
+    <div class="">
+      <div class="d-flex justify-content-center align-items-center rounded" style="height: 40px; background-color: rgb(233, 236, 239);">
+                      <img src="{{post.author.profile.image.url}}" style="width: 40px; height: 44px;" class="rounded" alt="{{user.username}}">                    </div>
+                  </div>
+      <h5 class="card-title">{{post.title}}</h5>
+      <small>{{post.date}}</small>
+      <p class="card-text">{{post.content|truncatechars:100}}</p>
+      <p class="card-text" style="left: 50px;"><a href="{% url 'user' post.author.username %}">      by:-{{post.author}}</a></p>
+      
+
+      <a href="{% url 'detail' post.id %}" class="btn btn-primary">read more</a>
+    </div>
+  </div>
+
+  {% endfor %}
+  {% endif %}
+  <div class="pagination" style="padding:50px;"
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+        <div class="container">
+            <a class="next" style="padding-right: 50px;"             href="?page={{ page_obj.next_page_number }}"> next  </a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">  last  &raquo;</a>
+        </div>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock %}

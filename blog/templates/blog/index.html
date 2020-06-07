@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap 4 Website Example</title>
+  <style>
+    input {max-width: 26em};
+</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <div class="container">
+    {% if messages %}
+    {% for message in messages%}
+  <div class="alert alert-{{message.tags}}">
+    {{message}}
+  {% endfor %}
+  {% endif %}
+  </div>
+
+<div class="jumbotron text-center">
+  <h1 style="font-size: 60px;">Taurusco The New World</h1>
+  <p style="font-size: 40px;">New Notions, New World</p> 
+</div>
+
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <a class="navbar-brand" href="{% url 'home' %}">Things you can do</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav" style="top: 0%;">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'about' %}" style="padding-left:30px;">Curious aboout us</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://forms.gle/hNuLrHyHVsNVVoBL9" style="padding-left:30px;">Wanna join us?</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://forms.gle/n3aqSnpyj95SAbAGA" style="padding-left:30px;">Have an Idea,Sir ji ?</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="{% url 'promotion' %}" style="padding-left:30px;">Wanna promote your business !!</a>
+        </li>  
+        {% if user.is_authenticated %}
+        <div class="dropdown">
+          <button class="btn btn-success dropdown-toggle" style="padding-left: 5px; margin-left: 400px;" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{user.username}}
+          </button>
+          <div class="dropdown-menu " style="margin-right:160px"   dropdownMenuButton">
+            <li class="nav-item">
+              <a class="dropdown-item" href="{% url 'profile' %}">profile</a>
+              <a class="dropdown-item" href="{% url 'create' %}">create post</a> 
+              <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+            
+            </li>
+          </div>
+        </div>
+      
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}" style="padding-left:30px;">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'register' %}" style="padding-left:30px;">Signup</a>
+        </li>
+         {% endif %}
+    </ul>
+  </div>  
+</nav>
+{% block content %}{% endblock %}
+
+<div class="jumbotron text-center" style="margin-bottom:0">
+  <p></p>
+  <!-- Add font awesome icons -->
+<a href="#" class="fa fa-facebook" style="padding-left: 50px;font-size: 40px;color:#3b5998"></a>
+<a href="#" class="fa fa-twitter" style="padding-left: 50px;font-size: 40px;color:blue"></a>
+<a href="#" class="fa fa-linkedin" style="padding-left: 50px;font-size: 40px;color: #2867b2;"></a>
+<a href="#" class="fa fa-instagram" style="padding-left: 50px;font-size: 40px;color:  #3f729b;"></a>
+      
+</div>
+
+</body>
+</html>

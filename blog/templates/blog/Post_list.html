@@ -1,0 +1,63 @@
+{% extends 'blog/index.html' %}
+{% block content %}
+<div class="container" style="margin-top:30px">
+    <div class="row">
+      <div class="col-sm-4">
+        <!---<h2>About Me</h2>
+        <h5>Photo of me:</h5>
+        <div class="fakeimg">Fake Image</div>
+        <p>Some text about me in culpa qui officia deserunt mollit anim..</p>--->
+        <h3>Feedback all around the world</h3>
+        <ul class="nav nav-pills flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" href="Article1.html">Z- generation</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Article 2.html">Blue star</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="Article 3.html">Star light</a>
+          </li>
+         <!-- <li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>--->
+          </li>
+        </ul>
+        <hr class="d-sm-none">
+      </div>
+      {%for post in posts %}
+      <div class="col-sm-8">
+        <h2>{{post.title}}</h2>
+        <h5>{{post.date}}</h5>
+        {% if post.pic %}
+        <div class="fakeimg" ><img  src="{{post.pic.url}}" style="width: 200px;height: 100px;"></div>
+        {% endif %}
+        <p>{{post.author}}</p>
+        <p>{{post.content|truncatechars:100}}</p>
+        <p class="card-text" style="left: 50px;">by:-<a href="{% url 'user' post.author.username %}">      {{post.author}}</a></p>
+        <div class="d-flex justify-content-center align-items-center rounded" style="height: 40px; background-color: rgb(233, 236, 239);">
+          <img src="{{post.author.profile.image.url}}" style="width: 40px; height: 44px;" class="rounded" alt="{{user.username}}">                    </div>
+          <a href="{% url 'detail' post.id %}" class="btn btn-primary">read more</a>
+        </div>
+        {% endfor %}
+     </div>
+        
+  <div class="pagination" style="padding:50px;"
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+        <div class="container">
+            <a class="next" style="padding-right: 50px;"             href="?page={{ page_obj.next_page_number }}"> next  </a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">  last  &raquo;</a>
+        </div>
+        {% endif %}
+    </span>
+</div>
+  {% endblock %}
